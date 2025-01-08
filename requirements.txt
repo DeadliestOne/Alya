@@ -33,7 +33,7 @@ numpy
 openai==0.28.0
 opencv-python
 pickledb
-pillow==10.3.0
+pillow==11.1.0
 psutil
 ntgcalls
 py-tgcalls
