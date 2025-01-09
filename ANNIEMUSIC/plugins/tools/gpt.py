@@ -20,7 +20,7 @@ async def gpt_handler(client: Client, message: Message):
         name = message.from_user.first_name
 
         if len(message.command) < 2:
-            await message.reply_text(f"**ʜᴇʟʟᴏ {name}, ɪ ᴀᴍ [ᴀʟʏᴀ](t.me/AlyaxMusicBot) ʜᴏᴡ ᴄᴀɴ ɪ ʜᴇʟᴘ ʏᴏᴜ sɪʀ/ᴍᴀ'ᴀᴍ ??**")
+            await message.reply_text(f"**ʜᴇʟʟᴏ {name}, ɪ ᴀᴍ [ᴀʟʏᴀ](t.me/AlyaxMusicBot) ʜᴏᴡ ᴄᴀɴ ɪ ʜᴇʟᴘ ʏᴏᴜ ᴛᴏᴅᴀʏ ??**")
             return
 
         query = message.text.split(' ', 1)[1]
