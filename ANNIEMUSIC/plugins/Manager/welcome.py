@@ -193,3 +193,5 @@ async def greet_new_member(client, member: ChatMemberUpdated):
 
         except Exception as e:
             LOGGER.error(f"Error in greeting new member: {e}")
+
+#new
