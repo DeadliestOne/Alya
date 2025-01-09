@@ -32,6 +32,7 @@ ANNIE_VID = [
     "https://files.catbox.moe/7boa9v.mp4",
     "https://files.catbox.moe/mbd0ik.mp4",
     "https://files.catbox.moe/ol5agj.mp4"
+    "https://files.catbox.moe/hhtzc0.mp4"
 ]
 
 STICKERS = [
