@@ -13,14 +13,14 @@ def extract_content(response):
         return response.get('content', 'No content available.')
     return str(response)
 
-@app.on_message(filters.command(["arvis"], prefixes=["j", "J"]))
+@app.on_message(filters.command(["lya"], prefixes=["a", "A"]))
 async def gpt_handler(client: Client, message: Message):
     try:
         await client.send_chat_action(message.chat.id, ChatAction.TYPING)
         name = message.from_user.first_name
 
         if len(message.command) < 2:
-            await message.reply_text(f"Hello {name}, I am Jarvis. How can I help you today?")
+            await message.reply_text(f"Hello {name}, ɪ ᴀᴍ [ᴀʟʏᴀ](t.me/AlyaxMusicBot) ʜᴏᴡ ᴄᴀɴ ɪ ʜᴇʟᴘ ʏᴏᴜ sɪʀ/ᴍᴀ'ᴀᴍ ??")
             return
 
         query = message.text.split(' ', 1)[1]
@@ -72,7 +72,7 @@ async def chat_annie(client: Client, message: Message):
         name = message.from_user.first_name
 
         if len(message.command) < 2:
-            await message.reply_text(f"Hello {name}, I am Annie. How can I assist you today?")
+            await message.reply_text(f"Hello {name}, I am Alisa. How can I assist you today?")
             return
 
         query = message.text.split(' ', 1)[1]
