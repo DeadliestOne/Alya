@@ -74,7 +74,7 @@ def welcomepic(pic_path, user, chatname, user_id, uname):
     pfp = Image.open(pic_path).convert("RGBA")
     pfp = circle(pfp, size=(312, 312))
     draw = ImageDraw.Draw(background)
-    font_large = ImageFont.truetype('ANNIEMUSIC/assets/annie/ArialReg.ttf', size=34)
+    font_large = ImageFont.truetype('ANNIEMUSIC/assets/annie/ArialReg.ttf', size=38)
     draw.text((360, 567), f'{user}', fill=(0, 0, 0), font=font_large)
     draw.text((312, 630), f'{user_id}', fill=(0, 0, 0), font=font_large)
     draw.text((412, 692), f"@{uname}", fill=(0, 0, 0), font=font_large)
