@@ -9,7 +9,7 @@ from pyrogram.types import (
 
 whisper_db = {}
 
-switch_btn = InlineKeyboardMarkup([[InlineKeyboardButton("🔒 sᴛᴀʀᴛ ᴡʜɪsᴘᴇʀ..", switch_inline_query_current_chat="")]])
+switch_btn = InlineKeyboardMarkup([[InlineKeyboardButton(" 𝑆𝑒𝑐𝑟𝑒𝑡 𝐼𝑛𝑙𝑖𝑛𝑒..", switch_inline_query_current_chat="")]])
 
 async def _whisper(_, inline_query):
     data = inline_query.query
@@ -112,7 +112,7 @@ async def in_help():
         InlineQueryResultArticle(
             title="🔒 Whisper",
             description=f"@YorxMusic_Bot [USERNAME | ID] [TEXT]",
-            input_message_content=InputTextMessageContent(f"**🔒ᴜsᴀɢᴇ:**\n\n@AlyaXMusicBot (Target Username or ID) (Your Message).\n\n**Example:**\n@YORXMUSIC_bot @UncountableAura I Love 💓 You"),
+            input_message_content=InputTextMessageContent(f"**🔒ᴜsᴀɢᴇ:**\n\n@AlyaXMusicBot (Target Username or ID) (Your Message).\n\n**Example:**\n@AlyaXMusicBot @UncountableAura I Love 💓 You"),
             thumb_url="https://i.ibb.co/0CZmTg8/istockphoto-1254403222-612x612.jpg",
             reply_markup=switch_btn
         )
