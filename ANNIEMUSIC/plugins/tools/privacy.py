@@ -18,7 +18,7 @@ async def privacy(client, message: Message):
         [
             [
                 InlineKeyboardButton(
-                    "𝑉𝑖𝑒𝑤 𝑃𝑟𝑖𝑣𝑎𝑐𝑦 𝑃𝑜𝑙𝑖𝑐𝑦", url=https://telegra.ph/Privacy-Policy-for-01-10
+                    "𝑉𝑖𝑒𝑤 𝑃𝑟𝑖𝑣𝑎𝑐𝑦 𝑃𝑜𝑙𝑖𝑐𝑦", url="https://telegra.ph/Privacy-Policy-for-01-10"
                 )
             ]
         ]
