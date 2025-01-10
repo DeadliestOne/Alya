@@ -5,7 +5,7 @@ from ANNIEMUSIC import app
 import config
 
 TEXT = f"""
-🔒 Privacy Policy for {app.username} !
+```🔒ᴘʀɪᴠᴀᴄʏ ᴘᴏʟɪᴄʏ ғᴏʀ {app.username}``` !
 
 **ʏᴏᴜʀ ᴘʀɪᴠᴀᴄʏ ɪs ɪᴍᴘᴏʀᴛᴀɴᴛ ᴛᴏ ᴜs. ᴛᴏ ʟᴇᴀʀɴ ᴍᴏʀᴇ ᴀʙᴏᴜᴛ ʜᴏᴡ ᴡᴇ ᴄᴏʟʟᴇᴄᴛ, ᴜsᴇ, ᴀɴᴅ ᴘʀᴏᴛᴇᴄᴛ ʏᴏᴜʀ ᴅᴀᴛᴀ, ᴘʟᴇᴀsᴇ ʀᴇᴠɪᴇᴡ ᴏᴜʀ ᴘʀɪᴠᴀᴄʏ ᴘᴏʟɪᴄʏ ʜᴇʀᴇ** : [ᴘʀɪᴠᴀᴄʏ ᴘᴏʟɪᴄʏ](https://telegra.ph/Privacy-Policy-for-01-10).
 
@@ -18,7 +18,7 @@ async def privacy(client, message: Message):
         [
             [
                 InlineKeyboardButton(
-                    "View Privacy Policy", url=https://telegra.ph/Privacy-Policy-for-01-10
+                    "𝑉𝑖𝑒𝑤 𝑃𝑟𝑖𝑣𝑎𝑐𝑦 𝑃𝑜𝑙𝑖𝑐𝑦", url=https://telegra.ph/Privacy-Policy-for-01-10
                 )
             ]
         ]
