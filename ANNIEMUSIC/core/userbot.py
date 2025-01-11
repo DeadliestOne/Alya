@@ -78,7 +78,7 @@ class Userbot:
                 LOGGER(__name__).warning(f"Assistant 1 failed to join chats: {e}")
             assistants.append(1)
             try:
-                await self.one.send_message(config.LOGGER_ID, "Annie's Assistant 1 Started")
+                await self.one.send_message(config.LOGGER_ID, "Alya's Assistant 1 Started")
             except Exception as e:
                 LOGGER(__name__).error(
                     f"Assistant Account 1 failed to access the log group: {e}"
@@ -94,11 +94,11 @@ class Userbot:
         if self.two:
             await self.two.start()
             try:
-                await self.two.join_chat("Dora_hub")
-                await self.two.join_chat("loggchk")
-                await self.two.join_chat("FlashXSupport")
-                await self.two.join_chat("FlashXNetwork")
-                await self.two.join_chat("JARVIS_V_SUPPORT")
+                await self.two.join_chat("BeAkatsuki")
+                await self.two.join_chat("ThunderboltFantasy")
+                await self.two.join_chat("lyfbots")
+                await self.two.join_chat("LyfSupport")
+                await self.two.join_chat("l")
             except Exception as e:
                 LOGGER(__name__).warning(f"Assistant 2 failed to join chats: {e}")
             assistants.append(2)
