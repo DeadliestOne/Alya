@@ -15,7 +15,7 @@ BOT_USERNAME = getenv("BOT_USERNAME", "AlyaxMusicBot")
 BOT_NAME = getenv("BOT_NAME", "˹𝐀ɴɴɪᴇ ✘ 𝙼ᴜsɪᴄ˼ ♪")
 ASSUSERNAME = getenv("ASSUSERNAME", "AlyaAssos")
 EVALOP = list(map(int, getenv("EVALOP", "6797202080").split()))
-MONGO_DB_URI = getenv("MONGO_DB_URI", mongodb+srv://rio:rio345@cluster0.p7rya.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0)
+MONGO_DB_URI = getenv("MONGO_DB_URI", "mongodb+srv://rio:rio345@cluster0.p7rya.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 LOGGER_ID = int(getenv("LOGGER_ID", -1002477649312))
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 17000))
 
