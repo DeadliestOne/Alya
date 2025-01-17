@@ -6,30 +6,30 @@ from pyrogram import filters
 # Load environment variables from .env file
 load_dotenv()
 
-API_ID = int(getenv("API_ID"))
-API_HASH = getenv("API_HASH")
-BOT_TOKEN = getenv("BOT_TOKEN")
+API_ID = int(getenv("API_ID", 26416419))
+API_HASH = getenv("API_HASH" , c109c77f5823c847b1aeb7fbd4990cc4)
+BOT_TOKEN = getenv("BOT_TOKEN" , 7763722459:AAHuPSRMVxj5rhJK1TTaTev4hijyAfCH4P0)
 
 # Specify where to get the following credentials
-OWNER_USERNAME = getenv("OWNER_USERNAME", "JARVIS_V2")
-BOT_USERNAME = getenv("BOT_USERNAME", "AnnieMusicRobot")
+OWNER_USERNAME = getenv("OWNER_USERNAME", "Uncountableaura")
+BOT_USERNAME = getenv("BOT_USERNAME", "AlyaxMusicBot")
 BOT_NAME = getenv("BOT_NAME", "˹𝐀ɴɴɪᴇ ✘ 𝙼ᴜsɪᴄ˼ ♪")
-ASSUSERNAME = getenv("ASSUSERNAME", "musicxannie")
-EVALOP = list(map(int, getenv("EVALOP", "6797202080").split()))
-MONGO_DB_URI = getenv("MONGO_DB_URI", None)
-LOGGER_ID = int(getenv("LOGGER_ID", -1002014167331))
+ASSUSERNAME = getenv("ASSUSERNAME", "AlyaAssis")
+EVALOP = list(map(int, getenv("EVALOP", "6748827895").split()))
+MONGO_DB_URI = getenv("MONGO_DB_URI", mongodb+srv://rio:rio345@cluster0.p7rya.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0)
+LOGGER_ID = int(getenv("LOGGER_ID",-1002477649312))
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 17000))
 
 GPT_API = getenv("GPT_API")
 DEEP_API = getenv("DEEP_API")
-OWNER_ID = int(getenv("OWNER_ID", 7044783841))
+OWNER_ID = int(getenv("OWNER_ID", 6748827895))
 
 # Heroku deployment settings - Refer to Heroku documentation on how to obtain these
 HEROKU_APP_NAME = getenv("HEROKU_APP_NAME")
 HEROKU_API_KEY = getenv("HEROKU_API_KEY")
 UPSTREAM_REPO = getenv("UPSTREAM_REPO", "https://github.com/doraemon890/ANNIE-X-MUSIC")
 UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "Master")
-GIT_TOKEN = getenv("GIT_TOKEN", None)
+GIT_TOKEN = getenv("GIT_TOKEN", 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)
 
 # Support and contact information - Provide your own support channels
 SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/ThunderBoltFantasy")
@@ -54,7 +54,7 @@ TG_AUDIO_FILESIZE_LIMIT = int(getenv("TG_AUDIO_FILESIZE_LIMIT", "5242880000"))
 TG_VIDEO_FILESIZE_LIMIT = int(getenv("TG_VIDEO_FILESIZE_LIMIT", "5242880000"))
 
 # Pyrogram session strings - You need to generate these yourself
-STRING1 = getenv("STRING_SESSION", None)
+STRING1 = getenv("STRING_SESSION", BQGTFSMAqsr_sMqbk7ixXvEBP11nI8oUVeGKZA-e89RZGanRdX4aeHL1cICLs8QSfsb8j-UvMsbRVTTmNCH4xitAlnU45WqEvJP6tuZy62n6uW-3lOvL0KG0nr2OQYvdi81aRIa9MZ9zE14MBTRjDaRqdTCayuJYd6MIcp-pQlZIT0x6X2sNJXuVsGPY8p3MTIOgxbHGozL34rLsyw6U4YzHyUgCD0XBt-c0AeW3NRKz9z1B1fZWgoa3cfNJskI6rsmvrdoRb1nlqa_VP2rDiPIo1c7NJbqdEEFuC44GsjbnNOU7X4tmaedtkE2Ks-A8FVGCoAR-9kq9CUyl-A8e6_pXeTsPtQAAAAHXrklAAA)
 STRING2 = getenv("STRING_SESSION2", None)
 STRING3 = getenv("STRING_SESSION3", None)
 STRING4 = getenv("STRING_SESSION4", None)
