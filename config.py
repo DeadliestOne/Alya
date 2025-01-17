@@ -7,9 +7,8 @@ from pyrogram import filters
 load_dotenv()
 
 API_ID = int(getenv("API_ID" , 26416419))
-API_HASH = getenv("API_HASH" , c109c77f5823c847b1aeb7fbd4990cc4)
-BOT_TOKEN = getenv("BOT_TOKEN" , 7763722459:AAF1p7FxZX094Uh6E7WAZepNFK1mzZSFXY0)
-
+API_HASH = getenv("API_HASH" , "c109c77f5823c847b1aeb7fbd4990cc4")
+BOT_TOKEN = getenv("BOT_TOKEN" , "7763722459:AAF1p7FxZX094Uh6E7WAZepNFK1mzZSFXY0")
 # Specify where to get the following credentials
 OWNER_USERNAME = getenv("OWNER_USERNAME", "Uncountableaura")
 BOT_USERNAME = getenv("BOT_USERNAME", "AlyaxMusicBot")
@@ -20,8 +19,8 @@ MONGO_DB_URI = getenv("MONGO_DB_URI", mongodb+srv://rio:rio345@cluster0.p7rya.mo
 LOGGER_ID = int(getenv("LOGGER_ID", -1002477649312))
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 17000))
 
-GPT_API = getenv("GPT_API" , lund)
-DEEP_API = getenv("DEEP_API" , lund)
+GPT_API = getenv("GPT_API", None )
+DEEP_API = getenv("DEEP_API", None)
 OWNER_ID = int(getenv("OWNER_ID", 6748827895))
 
 # Heroku deployment settings - Refer to Heroku documentation on how to obtain these
