@@ -48,6 +48,13 @@ def crop_center_circle(img, output_size, border, crop_scale=1.5):
     
     final_img = Image.new("RGBA", (output_size, output_size), "white")
     
+    # Add glow effect
+    glow_size = output_size + 40
+    glow_mask = Image.new("L", (glow_size, glow_size), 0)
+    draw_glow = ImageDraw.Draw(glow_mask)
+    draw_glow.ellipse((20, 20, glow_size - 20, glow_size - 20), fill=200)
+    glow = Image.new("RGBA", (glow_size, glow_size), "yellow")
+    final_img.paste(glow, (-20, -20), glow_mask)
     
     mask_main = Image.new("L", (output_size - 2*border, output_size - 2*border), 0)
     draw_main = ImageDraw.Draw(mask_main)
@@ -116,6 +123,22 @@ async def get_thumb(videoid):
     circle_thumbnail = circle_thumbnail.resize((400, 400))
     circle_position = (120, 160)
     background.paste(circle_thumbnail, circle_position, circle_thumbnail)
+
+    # Add bot username in a small circle
+    bot_username = "@BotUsername"
+    small_circle_radius = 40
+    small_circle = Image.new("RGBA", (small_circle_radius * 2, small_circle_radius * 2), "black")
+    draw_small_circle = ImageDraw.Draw(small_circle)
+    draw_small_circle.ellipse((0, 0, small_circle_radius * 2, small_circle_radius * 2), fill="black")
+    draw_small_circle.text(
+        (small_circle_radius, small_circle_radius),
+        bot_username,
+        fill="white",
+        anchor="mm",
+        font=arial,
+    )
+    small_circle_position = (circle_position[0] + 280, circle_position[1] + 280)
+    background.paste(small_circle, small_circle_position, small_circle)
 
     text_x_position = 565
 
