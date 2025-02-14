@@ -67,7 +67,7 @@ async def get_thumb(videoid):
     # "Now Playing" with red vertical bar
     now_playing_font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font2.ttf", 35)
     draw.text((50, 50), "|", fill="red", font=now_playing_font)
-    draw.text((80, 50), "Now Playing", fill=(255, 255, 255), font=now_playing_font)
+    draw.text((80, 50), "Mitsuha Now Playing", fill=(255, 255, 255), font=now_playing_font)
 
     arial = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font2.ttf", 30)
     font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font.ttf", 30)
