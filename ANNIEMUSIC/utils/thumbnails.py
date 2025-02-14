@@ -25,16 +25,24 @@ def truncate(text):
             text2 += " " + word
     return [text1.strip(), text2.strip()]
 
-def create_glow(img, blur_radius=20, glow_color=(0, 255, 0)):
-    glow = img.copy().convert("RGBA")
+def create_gradient_glow(image, blur_radius=25):
+    glow = image.copy().convert("RGBA")
     alpha = glow.split()[3]
-    glow = ImageOps.colorize(alpha, black="black", white=glow_color)
+    glow = ImageOps.colorize(alpha, black="black", white="limegreen")
     glow = glow.filter(ImageFilter.GaussianBlur(blur_radius))
     return glow
 
+def draw_gradient_bar(draw, start, end, colors):
+    for i in range(start[0], end[0]):
+        ratio = (i - start[0]) / (end[0] - start[0])
+        r = int(colors[0][0] + (colors[1][0] - colors[0][0]) * ratio)
+        g = int(colors[0][1] + (colors[1][1] - colors[0][1]) * ratio)
+        b = int(colors[0][2] + (colors[1][2] - colors[0][2]) * ratio)
+        draw.line([(i, start[1]), (i, start[1] + 8)], fill=(r, g, b))
+
 async def get_thumb(videoid):
-    if os.path.isfile(f"cache/{videoid}_v6.png"):
-        return f"cache/{videoid}_v6.png"
+    if os.path.isfile(f"cache/{videoid}_custom.png"):
+        return f"cache/{videoid}_custom.png"
 
     url = f"https://www.youtube.com/watch?v={videoid}"
     results = VideosSearch(url, limit=1)
@@ -62,32 +70,26 @@ async def get_thumb(videoid):
     arial = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font2.ttf", 30)
     title_font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font3.ttf", 45)
     
-    # Create gradient border with glow effect
+    # Create and apply gradient glow
+    glow = create_gradient_glow(image1)
     thumbnail_size = 400
-    img_with_border = create_glow(image1, blur_radius=15, glow_color=(0, 255, 127))
-    border_image = Image.new("RGBA", (thumbnail_size + 40, thumbnail_size + 40), (0, 0, 0, 0))
-    border_image.paste(img_with_border, (20, 20), img_with_border)
-    background.paste(border_image, (100, 160), border_image)
+    glow_with_border = Image.new("RGBA", (thumbnail_size + 80, thumbnail_size + 80), (0, 0, 0, 0))
+    glow_with_border.paste(glow, (40, 40), glow)
+    background.paste(glow_with_border, (80, 150), glow_with_border)
     
-    # Add title and info
+    # Add text
     text_x_position = 565
     title1 = truncate(title)
     draw.text((text_x_position, 180), title1[0], fill=(255, 255, 255), font=title_font)
     draw.text((text_x_position, 230), title1[1], fill=(255, 255, 255), font=title_font)
     draw.text((text_x_position, 320), f"{channel}  |  {views[:23]}", (255, 255, 255), font=arial)
 
-    # Progress bar
+    # Gradient progress bar
     line_length = 580  
     red_length = int(line_length * 0.6)
-    white_length = line_length - red_length
-    start_point_red = (text_x_position, 380)
-    end_point_red = (text_x_position + red_length, 380)
-    draw.line([start_point_red, end_point_red], fill="red", width=9)
-    start_point_white = (text_x_position + red_length, 380)
-    end_point_white = (text_x_position + line_length, 380)
-    draw.line([start_point_white, end_point_white], fill="white", width=8)
+    draw_gradient_bar(draw, (text_x_position, 380), (text_x_position + red_length, 380), [(255, 0, 0), (255, 255, 0)])
 
-    # Now Playing animation
+    # Now Playing pulse animation
     now_playing_font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font.ttf", 25)
     draw.rectangle([text_x_position, 450, text_x_position + 150, 485], fill=(255, 0, 0, 180))
     draw.text((text_x_position + 10, 455), "Now Playing", fill=(255, 255, 255), font=now_playing_font)
@@ -96,5 +98,5 @@ async def get_thumb(videoid):
         os.remove(f"cache/thumb{videoid}.png")
     except:
         pass
-    background.save(f"cache/{videoid}_v6.png")
-    return f"cache/{videoid}_v6.png"
+    background.save(f"cache/{videoid}_custom.png")
+    return f"cache/{videoid}_custom.png"
