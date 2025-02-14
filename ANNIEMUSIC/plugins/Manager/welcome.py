@@ -16,6 +16,8 @@ from logging import getLogger
 from ANNIEMUSIC.utils.jarvis_ban import admin_filter
 from ANNIEMUSIC.utils.database import add_served_chat, get_assistant, is_active_chat
 from ANNIEMUSIC.misc import SUDOERS
+from ANNIEMUSIC.mongo.afkdb import process
+
 from ANNIEMUSIC.mongo.afkdb import PROCESS
 from pyrogram.errors import UserAlreadyParticipant, ChatAdminRequired, InviteRequestSent, UserNotParticipant
 import requests
@@ -51,35 +53,33 @@ class temp:
     U_NAME = None
     B_NAME = None
 
-def circle(pfp, size=(500, 500), brightness_factor=10):
+def circle(pfp, size=(400, 400), brightness_factor=1.5):
     pfp = pfp.resize(size, Image.Resampling.LANCZOS).convert("RGBA")
     pfp = ImageEnhance.Brightness(pfp).enhance(brightness_factor)
-    bigsize = (pfp.size[0] * 3, pfp.size[1] * 3)
-    mask = Image.new("L", bigsize, 0)
+    mask = Image.new("L", size, 0)
     draw = ImageDraw.Draw(mask)
-    draw.ellipse((0, 0) + bigsize, fill=255)
-    mask = mask.resize(pfp.size, Image.Resampling.LANCZOS)
-    mask = ImageChops.darker(mask, pfp.split()[-1])
+    draw.ellipse((0, 0, size[0], size[1]), fill=255)
     pfp.putalpha(mask)
     return pfp
 
-def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
-    background = Image.open("/mnt/data/IMG_20250214_154845_338.png")  # Updated background image
+def welcomepic(pic, user, id, uname):
+    background = Image.open("ANNIEMUSIC/assets/welc4.png")
     pfp = Image.open(pic).convert("RGBA")
-    pfp = circle(pfp, brightness_factor=brightness_factor) 
-    pfp = pfp.resize((325, 325))
-    draw = ImageDraw.Draw(background)
-    font = ImageFont.truetype('ANNIEMUSIC/assets/font.ttf', size=50)
-    welcome_font = ImageFont.truetype('ANNIEMUSIC/assets/font.ttf', size=61)
-    
-    draw.text((520, 500), f'{user}', fill=(255, 255, 255), font=font)
-    draw.text((485, 560), f'{id}', fill=(255, 255, 255), font=font)
-    draw.text((565, 630), f"@{uname}", fill=(255, 255, 255), font=font)
+    pfp = circle(pfp, size=(300, 300), brightness_factor=1.3)
 
-    pfp_position = (105, 120)
+    draw = ImageDraw.Draw(background)
+    font = ImageFont.truetype('ANNIEMUSIC/assets/font.ttf', size=45)
+
+    draw.text((50, 420), f'ID : {id}', fill=(0, 0, 0), font=font)
+    draw.text((50, 480), f'NAME : {user}', fill=(0, 0, 0), font=font)
+    draw.text((50, 540), f'USERNAME : @{uname}', fill=(0, 0, 0), font=font)
+
+    pfp_position = (50, 80)
     background.paste(pfp, pfp_position, pfp)
-    background.save(f"downloads/welcome#{id}.png")
-    return f"downloads/welcome#{id}.png"
+
+    output_path = f"downloads/welcome#{id}.png"
+    background.save(output_path)
+    return output_path
 
 @app.on_message(filters.command("welcome") & ~filters.private)
 async def auto_state(_, message):
