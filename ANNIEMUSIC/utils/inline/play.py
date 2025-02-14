@@ -21,11 +21,11 @@ def track_markup(_, videoid, user_id, channel, fplay):
         ],
         [
             InlineKeyboardButton(
-                text="ʀᴇᴘʟᴀʏ ↺",
+                text="ʀᴇᴘʟᴀʏ",
                 callback_data=f"ADMIN Replay|{user_id}"
             ),
             InlineKeyboardButton(
-                text="▢ sᴛᴏᴘ",
+                text="sᴛᴏᴘ",
                 callback_data=f"ADMIN Stop|{user_id}"
             ),
         ],
@@ -77,25 +77,25 @@ def stream_markup_timer(_, chat_id, played, dur):
         ],
         [
             InlineKeyboardButton(
-                text="▷ ʀᴇsᴜᴍᴇ",
+                text="ʀᴇsᴜᴍᴇ",
                 callback_data=f"ADMIN Resume|{chat_id}"
             ),
             InlineKeyboardButton(
-                text="II ᴘᴀᴜsᴇ",
+                text="ᴘᴀᴜsᴇ",
                 callback_data=f"ADMIN Pause|{chat_id}",
             ),
             InlineKeyboardButton(
-                text="sᴋɪᴘ ‣‣I",
+                text="sᴋɪᴘ",
                 callback_data=f"ADMIN Skip|{chat_id}"
             ),
         ],
         [
             InlineKeyboardButton(
-                text="▢ sᴛᴏᴘ",
+                text="sᴛᴏᴘ",
                 callback_data=f"ADMIN Stop|{chat_id}"
             ),
             InlineKeyboardButton(
-                text="ʀᴇᴘʟᴀʏ ↺",
+                text="ʀᴇᴘʟᴀʏ",
                 callback_data=f"ADMIN Replay|{chat_id}"
             ),
         ],
@@ -126,25 +126,25 @@ def telegram_markup_timer(_, chat_id, played, dur):
         ],
         [
             InlineKeyboardButton(
-                text="▷ ʀᴇsᴜᴍᴇ",
+                text="ʀᴇsᴜᴍᴇ",
                 callback_data=f"ADMIN Resume|{chat_id}"
             ),
             InlineKeyboardButton(
-                text="II ᴘᴀᴜsᴇ",
+                text="ᴘᴀᴜsᴇ",
                 callback_data=f"ADMIN Pause|{chat_id}",
             ),
             InlineKeyboardButton(
-                text="sᴋɪᴘ ‣‣I",
+                text="sᴋɪᴘ",
                 callback_data=f"ADMIN Skip|{chat_id}"
             ),
         ],
         [
             InlineKeyboardButton(
-                text="▢ sᴛᴏᴘ",
+                text="sᴛᴏᴘ",
                 callback_data=f"ADMIN Stop|{chat_id}"
             ),
             InlineKeyboardButton(
-                text="ʀᴇᴘʟᴀʏ ↺",
+                text="ʀᴇᴘʟᴀʏ",
                 callback_data=f"ADMIN Replay|{chat_id}"
             ),
         ],
@@ -161,24 +161,24 @@ def stream_markup(_, chat_id):
     buttons = [
         [
             InlineKeyboardButton(
-                text="▷ ʀᴇsᴜᴍᴇ",
+                text="ʀᴇsᴜᴍᴇ",
                 callback_data=f"ADMIN Resume|{chat_id}"
             ),
             InlineKeyboardButton(
-                text="II ᴘᴀᴜsᴇ",
+                text="ᴘᴀᴜsᴇ",
                 callback_data=f"ADMIN Pause|{chat_id}",
             ),
             InlineKeyboardButton(
-                text="sᴋɪᴘ ‣‣I",
+                text="sᴋɪᴘ",
                 callback_data=f"ADMIN Skip|{chat_id}"),
         ],
         [
             InlineKeyboardButton(
-                text="▢ sᴛᴏᴘ",
+                text="sᴛᴏᴘ",
                 callback_data=f"ADMIN Stop|{chat_id}"
             ),
             InlineKeyboardButton(
-                text="ʀᴇᴘʟᴀʏ ↺",
+                text="ʀᴇᴘʟᴀʏ",
                 callback_data=f"ADMIN Replay|{chat_id}"
             ),
         ],
@@ -285,21 +285,21 @@ def queue_markup(_, videoid, chat_id):
                 callback_data=f"ADMIN Pause|{chat_id}",
             ),
             InlineKeyboardButton(
-                text="▢ sᴛᴏᴘ",
+                text="sᴛᴏᴘ",
                 callback_data=f"ADMIN Stop|{chat_id}"
             ),
             InlineKeyboardButton(
-                text="sᴋɪᴘ ‣‣I",
+                text="sᴋɪᴘ",
                 callback_data=f"ADMIN Skip|{chat_id}"
             ),
         ],
         [
             InlineKeyboardButton(
-                text="▷ ʀᴇsᴜᴍᴇ",
+                text="ʀᴇsᴜᴍᴇ",
                 callback_data=f"ADMIN Resume|{chat_id}"
             ),
             InlineKeyboardButton(
-                text="ʀᴇᴘʟᴀʏ ↺",
+                text="ʀᴇᴘʟᴀʏ",
                 callback_data=f"ADMIN Replay|{chat_id}"
             ),
         ],
