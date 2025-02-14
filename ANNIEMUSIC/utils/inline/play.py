@@ -56,7 +56,7 @@ def generate_progress_bar(played_sec, duration_sec):
     bar_length = 12
     filled_length = int(round(bar_length * percentage / 100))
 
-    bar = '▰' * filled_length + '▱' * (bar_length - filled_length)
+    bar = '◼' * filled_length + '◻' * (bar_length - filled_length)
     return bar
 
 def stream_markup_timer(_, chat_id, played, dur):
