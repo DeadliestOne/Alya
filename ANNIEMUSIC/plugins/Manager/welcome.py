@@ -1,3 +1,4 @@
+#andi mandi jo iske niche wala line change/remove kiya uski ... 🤣
 # Created By - @ProBotts || @ZeoXpro
 
 from ANNIEMUSIC import app
@@ -5,26 +6,66 @@ from pyrogram.errors import RPCError
 from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
 from os import environ
 from typing import Union, Optional
-from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageChops
+from PIL import Image, ImageDraw, ImageFont
 from os import environ
 import random
-from pyrogram import Client, filters, enums
+from pyrogram import Client, filters
 from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
-from asyncio import sleep
+from PIL import Image, ImageDraw, ImageFont
+import asyncio, os, time, aiohttp
 from pathlib import Path
+from PIL import Image, ImageDraw, ImageFont, ImageEnhance
+from asyncio import sleep
+from pyrogram import filters, Client, enums
+from pyrogram.enums import ParseMode
 from logging import getLogger
 from ANNIEMUSIC.utils.jarvis_ban import admin_filter
-from ANNIEMUSIC.utils.database import add_served_chat, get_assistant, is_active_chat
-from ANNIEMUSIC.misc import SUDOERS
-from ANNIEMUSIC.mongo.afkdb import process
-
-from ANNIEMUSIC.mongo.afkdb import PROCESS
-from pyrogram.errors import UserAlreadyParticipant, ChatAdminRequired, InviteRequestSent, UserNotParticipant
+from PIL import ImageDraw, Image, ImageFont, ImageChops
+from pyrogram import *
+from pyrogram.types import *
+from logging import getLogger
+from pyrogram import Client, filters
 import requests
+import random
+import os
+import re
 import asyncio
 import time
-import re
-import os
+from ANNIEMUSIC.utils.database import add_served_chat
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from ANNIEMUSIC.utils.database import get_assistant
+import asyncio
+from ANNIEMUSIC.misc import SUDOERS
+from ANNIEMUSIC.mongo.afkdb import PROCESS
+from pyrogram import Client, filters
+from pyrogram.errors import UserAlreadyParticipant
+from ANNIEMUSIC import app
+import asyncio
+import random
+from pyrogram import Client, filters
+from pyrogram.enums import ChatMemberStatus
+from pyrogram.errors import (
+    ChatAdminRequired,
+    InviteRequestSent,
+    UserAlreadyParticipant,
+    UserNotParticipant,
+)
+from ANNIEMUSIC.utils.database import get_assistant, is_active_chat
+
+
+
+random_photo = [
+    "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
+    "https://telegra.ph/file/3ef2cc0ad2bc548bafb30.jpg",
+    "https://telegra.ph/file/a7d663cd2de689b811729.jpg",
+    "https://telegra.ph/file/6f19dc23847f5b005e922.jpg",
+    "https://telegra.ph/file/2973150dd62fd27a3a6ba.jpg",
+]
+# --------------------------------------------------------------------------------- #
+
+
+
+
 
 LOGGER = getLogger(__name__)
 
@@ -53,6 +94,8 @@ class temp:
     U_NAME = None
     B_NAME = None
 
+
+
 def circle(pfp, size=(400, 400), brightness_factor=1.5):
     pfp = pfp.resize(size, Image.Resampling.LANCZOS).convert("RGBA")
     pfp = ImageEnhance.Brightness(pfp).enhance(brightness_factor)
@@ -80,6 +123,7 @@ def welcomepic(pic, user, id, uname):
     output_path = f"downloads/welcome#{id}.png"
     background.save(output_path)
     return output_path
+
 
 @app.on_message(filters.command("welcome") & ~filters.private)
 async def auto_state(_, message):
@@ -111,6 +155,8 @@ async def auto_state(_, message):
     else:
         await message.reply("**sᴏʀʀʏ ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴇɴᴀʙʟᴇ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ!**")
 
+
+
 @app.on_chat_member_updated(filters.group, group=-3)
 async def greet_new_member(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
@@ -120,7 +166,10 @@ async def greet_new_member(_, member: ChatMemberUpdated):
         return
 
     user = member.new_chat_member.user if member.new_chat_member else member.from_user
+    
+    # Add the modified condition here
     if member.new_chat_member and not member.old_chat_member and member.new_chat_member.status != "kicked":
+    
         try:
             pic = await app.download_media(
                 user.photo.big_file_id, file_name=f"pp{user.id}.png"
@@ -163,4 +212,5 @@ async def greet_new_member(_, member: ChatMemberUpdated):
         except Exception as e:
             LOGGER.error(e)
 
-# Created By - @ProBotts || @ZeoXpro
+# removed
+# Created By - SexyBhai|| MeraUsername 
