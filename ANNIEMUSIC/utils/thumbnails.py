@@ -26,11 +26,31 @@ def truncate(text):
             text2 += " " + word
     return [text1.strip(), text2.strip()]
 
-def create_square_thumbnail(img, size, border=20):
-    img = img.resize((size - 2 * border, size - 2 * border))
-    final_img = Image.new("RGBA", (size, size), (255, 255, 255, 0))
-    final_img.paste(img, (border, border))
-    return final_img
+def create_square_thumbnail(img, size):
+    img = img.resize((size, size))
+    return img
+
+def add_glowing_border(image, size, glow_color=(255, 0, 0), border_width=10, glow_intensity=15):
+    border_size = size + 2 * border_width
+    glow_image = Image.new("RGBA", (border_size, border_size), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(glow_image)
+
+    # Draw the square border
+    draw.rectangle(
+        [border_width, border_width, border_size - border_width, border_size - border_width],
+        outline=glow_color, width=border_width
+    )
+
+    # Add glow effect by applying blur multiple times
+    for _ in range(glow_intensity):
+        glow_image = glow_image.filter(ImageFilter.GaussianBlur(2))
+    
+    # Paste the original image on top of the glowing border
+    final_image = Image.new("RGBA", (border_size, border_size), (0, 0, 0, 0))
+    final_image.paste(glow_image, (0, 0), glow_image)
+    final_image.paste(image, (border_width, border_width), image)
+
+    return final_image
 
 async def get_thumb(videoid):
     if os.path.isfile(f"cache/{videoid}_v5.png"):
@@ -55,7 +75,7 @@ async def get_thumb(videoid):
     youtube = Image.open(f"cache/thumb{videoid}.png")
     image1 = changeImageSize(1280, 720, youtube)
     image2 = image1.convert("RGBA")
-    background = image2.filter(filter=ImageFilter.BoxBlur(20))
+    background = image2.filter(ImageFilter.BoxBlur(20))
     enhancer = ImageEnhance.Brightness(background)
     background = enhancer.enhance(0.6)
     draw = ImageDraw.Draw(background)
@@ -64,8 +84,11 @@ async def get_thumb(videoid):
     title_font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font3.ttf", 45)
 
     square_thumbnail = create_square_thumbnail(youtube, 400)
+    
+    # Add glowing border around the square thumbnail
+    square_with_glow = add_glowing_border(square_thumbnail, 400, glow_color=(255, 0, 0), border_width=15, glow_intensity=10)
     square_position = (120, 160)
-    background.paste(square_thumbnail, square_position, square_thumbnail)
+    background.paste(square_with_glow, square_position, square_with_glow)
 
     text_x_position = 565
     title1 = truncate(title)
