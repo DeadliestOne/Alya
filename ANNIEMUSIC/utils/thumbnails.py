@@ -28,19 +28,12 @@ def truncate(text):
             text2 += " " + word
     return [text1.strip(), text2.strip()]
 
-# Function to add a glowing border
-def add_glow_border(image, border_size=10, glow_color=(0, 255, 0)):
-    border_img = ImageOps.expand(image, border=border_size, fill=glow_color)
-    for i in range(3):
-        border_img = border_img.filter(ImageFilter.GaussianBlur(3))
-    return border_img
-
-# Function to create the square thumbnail with a glow effect
-def create_square_thumbnail(img, size, border=20):
-    img = img.resize((size - 2 * border, size - 2 * border))
+# Function to create a square thumbnail without blur or glow
+def create_square_thumbnail(img, size):
+    img = img.resize((size, size), Image.LANCZOS)  # Resize to the exact square size
     square_img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    square_img.paste(img, (border, border))
-    return add_glow_border(square_img, border_size=5, glow_color=(0, 255, 0))
+    square_img.paste(img, (0, 0))
+    return square_img
 
 # Main function to generate the thumbnail
 async def get_thumb(videoid):
@@ -80,10 +73,10 @@ async def get_thumb(videoid):
     font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font.ttf", 30)
     title_font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font3.ttf", 45)
 
-    # Add square thumbnail with glow effect
+    # Add square thumbnail with real image (no blur or glow)
     square_thumbnail = create_square_thumbnail(youtube, 400)
     square_position = (120, 160)
-    background.paste(square_thumbnail, square_position, square_thumbnail)
+    background.paste(square_thumbnail, square_position)
 
     # Add text
     text_x_position = 565
@@ -117,5 +110,6 @@ async def get_thumb(videoid):
         os.remove(f"cache/thumb{videoid}.png")
     except:
         pass
+
     background.save(f"cache/{videoid}_custom.png")
     return f"cache/{videoid}_custom.png"
