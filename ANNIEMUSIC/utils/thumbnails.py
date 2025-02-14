@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont, ImageOps
 from unidecode import unidecode
 from youtubesearchpython.__future__ import VideosSearch
 from ANNIEMUSIC import app
-from config import YOUTUBE_IMG_URL  # Ensure this is correctly set in your config
+from config import YOUTUBE_IMG_URL
 
 # Utility function to resize the image
 def changeImageSize(maxWidth, maxHeight, image):
@@ -71,6 +71,11 @@ async def get_thumb(videoid):
     background = enhancer.enhance(0.6)
     draw = ImageDraw.Draw(background)
 
+    # "Now Playing" with red vertical bar
+    now_playing_font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font2.ttf", 35)
+    draw.text((50, 50), "|", fill="red", font=now_playing_font)
+    draw.text((80, 50), "Now Playing", fill=(255, 255, 255), font=now_playing_font)
+
     arial = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font2.ttf", 30)
     font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font.ttf", 30)
     title_font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font3.ttf", 45)
@@ -80,13 +85,6 @@ async def get_thumb(videoid):
     square_position = (120, 160)
     background.paste(square_thumbnail, square_position, square_thumbnail)
 
-# "Now Playing" with red vertical bar
-now_playing_font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font.ttf", 35)
-draw.text((50, 50), "|", fill="red", font=now_playing_font)
-draw.text((80, 50), "Now Playing", fill=(255, 255, 255), font=now_playing_font)
-
-
-    
     # Add text
     text_x_position = 565
     title1 = truncate(title)
