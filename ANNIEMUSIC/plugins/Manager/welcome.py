@@ -59,31 +59,39 @@ wlcm = WelDatabase()
 class temp:
     MELCOW = {}
 
-def circle(pfp, size=(400, 400), brightness_factor=1.5):
-    pfp = pfp.resize(size, Image.Resampling.LANCZOS).convert("RGBA")
-    pfp = ImageEnhance.Brightness(pfp).enhance(brightness_factor)
+def circle(pfp, size=(500, 500)):
+    pfp = pfp.resize(size, Image.LANCZOS).convert("RGBA")
     mask = Image.new("L", size, 0)
     draw = ImageDraw.Draw(mask)
     draw.ellipse((0, 0, size[0], size[1]), fill=255)
+    mask = mask.resize(pfp.size, Image.LANCZOS)
     pfp.putalpha(mask)
     return pfp
 
+
 def welcomepic(pic, user, id, uname):
-    background = Image.open("ANNIEMUSIC/assets/welc4.png")
+    # Load the background template image
+    background = Image.open("ANNIEMUSIC/assets/welc4.png").convert("RGBA")
+    
+    # Load and process the profile picture
     pfp = Image.open(pic).convert("RGBA")
-    pfp = circle(pfp, size=(300, 300), brightness_factor=1.3)
+    pfp = circle(pfp, size=(180, 180), brightness_factor=1.2)  # Adjusted size for the circle
 
+    # Draw text on the image
     draw = ImageDraw.Draw(background)
-    font = ImageFont.truetype('ANNIEMUSIC/assets/font.ttf', size=45)
+    font = ImageFont.truetype('ANNIEMUSIC/assets/font.ttf', size=40)  # Adjust font size
 
-    draw.text((50, 420), f'ID : {id}', fill=(0, 0, 0), font=font)
-    draw.text((50, 480), f'NAME : {user}', fill=(0, 0, 0), font=font)
-    draw.text((50, 540), f'USERNAME : @{uname}', fill=(0, 0, 0), font=font)
-
-    pfp_position = (50, 80)
+    # Add text to the image in the positions matching the uploaded image
+    draw.text((70, 400), f'ID : {id}', fill="black", font=font)
+    draw.text((70, 470), f'NAME : {user}', fill="black", font=font)
+    draw.text((70, 540), f'USERNAME : @{uname if uname else "No Username"}', fill="black", font=font)
+    
+    # Position and paste the profile picture onto the background
+    pfp_position = (60, 100)  # Adjusted position to align with the circle in your image
     background.paste(pfp, pfp_position, pfp)
-
-    output_path = f"downloads/welcome#{id}.png"
+    
+    # Save the final image
+    output_path = f"downloads/welcome_{id}.png"
     background.save(output_path)
     return output_path
 
