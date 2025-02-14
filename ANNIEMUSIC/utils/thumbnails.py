@@ -35,6 +35,22 @@ def create_square_thumbnail(img, size):
     square_img.paste(img, (0, 0))
     return square_img
 
+# Function to add a dynamic border around the thumbnail
+def add_dynamic_border(image, border_width=20):
+    dominant_color = image.resize((50, 50)).getpixel((0, 0))
+    border_image = ImageOps.expand(image, border=border_width, fill=dominant_color)
+    return border_image
+
+# Function to add a glow effect to text
+def add_glow(draw, position, text, font, glow_color, text_color, intensity=5):
+    x, y = position
+    for offset in range(1, intensity + 1):
+        draw.text((x - offset, y), text, font=font, fill=glow_color)
+        draw.text((x + offset, y), text, font=font, fill=glow_color)
+        draw.text((x, y - offset), text, font=glow_color)
+        draw.text((x, y + offset), text, font=glow_color)
+    draw.text(position, text, font=font, fill=text_color)
+
 # Main function to generate the thumbnail
 async def get_thumb(videoid):
     if os.path.isfile(f"cache/{videoid}_custom.png"):
@@ -73,16 +89,17 @@ async def get_thumb(videoid):
     font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font.ttf", 30)
     title_font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font3.ttf", 45)
 
-    # Add square thumbnail with real image (no blur or glow)
+    # Add square thumbnail with dynamic border
     square_thumbnail = create_square_thumbnail(youtube, 400)
+    square_thumbnail = add_dynamic_border(square_thumbnail, border_width=10)
     square_position = (120, 160)
     background.paste(square_thumbnail, square_position)
 
-    # Add text
+    # Add text with glow effect
     text_x_position = 565
     title1 = truncate(title)
-    draw.text((text_x_position, 180), title1[0], fill=(255, 255, 255), font=title_font)
-    draw.text((text_x_position, 230), title1[1], fill=(255, 255, 255), font=title_font)
+    add_glow(draw, (text_x_position, 180), title1[0], title_font, glow_color="blue", text_color="white", intensity=4)
+    add_glow(draw, (text_x_position, 230), title1[1], title_font, glow_color="blue", text_color="white", intensity=4)
     draw.text((text_x_position, 320), f"{channel}  |  {views[:23]}", (255, 255, 255), font=arial)
 
     # Progress bar
@@ -102,9 +119,9 @@ async def get_thumb(videoid):
     play_icons = Image.open("ANNIEMUSIC/assets/thumb/play_icons.png").resize((580, 62))
     background.paste(play_icons, (text_x_position, 450), play_icons)
 
-    # Add watermark
+    # Add watermark with glow
     watermark_font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font.ttf", 25)
-    draw.text((1050, 680), "@MitshBot", fill=(255, 255, 255, 150), font=watermark_font)
+    add_glow(draw, (1050, 680), "@MitshBot", watermark_font, glow_color="red", text_color="white", intensity=3)
 
     try:
         os.remove(f"cache/thumb{videoid}.png")
