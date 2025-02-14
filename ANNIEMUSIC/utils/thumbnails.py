@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont, ImageOps
 from unidecode import unidecode
 from youtubesearchpython.__future__ import VideosSearch
 from ANNIEMUSIC import app
-from config import YOUTUBE_IMG_URL  # Ensure this exists in your config
+from config import YOUTUBE_IMG_URL  # Ensure you have this in your config
 
 def changeImageSize(maxWidth, maxHeight, image):
     widthRatio = maxWidth / image.size[0]
@@ -26,27 +26,22 @@ def truncate(text):
             text2 += " " + word
     return [text1.strip(), text2.strip()]
 
-def add_glowing_border(image, size, glow_color=(255, 0, 0), border_width=15, glow_intensity=5):
-    border_size = size + 2 * border_width
-    glow_image = Image.new("RGBA", (border_size, border_size), (0, 0, 0, 0))
+def create_square_thumbnail(img, size, border=20, glow_color="green"):
+    img = img.resize((size - 2 * border, size - 2 * border))
+    final_img = Image.new("RGBA", (size, size), (255, 255, 255, 0))
+    final_img.paste(img, (border, border))
 
-    # Draw the initial border
-    draw = ImageDraw.Draw(glow_image)
-    draw.rectangle(
-        [border_width, border_width, border_size - border_width, border_size - border_width],
-        outline=glow_color, width=border_width
-    )
-
-    # Apply glow by repeatedly blurring the image
-    for _ in range(glow_intensity):
-        glow_image = glow_image.filter(ImageFilter.GaussianBlur(2))
-    
-    # Create the final image with glow and the original image in the center
-    final_image = Image.new("RGBA", (border_size, border_size), (0, 0, 0, 0))
-    final_image.paste(glow_image, (0, 0), glow_image)
-    final_image.paste(image, (border_width, border_width), image)
-
-    return final_image
+    # Create a glow effect
+    glow = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(glow)
+    for i in range(8):  # Adjust for stronger glow
+        draw.rectangle(
+            [border - i, border - i, size - border + i, size - border + i],
+            outline=glow_color,
+            width=2
+        )
+    final_img = Image.alpha_composite(glow, final_img)
+    return final_img
 
 async def get_thumb(videoid):
     if os.path.isfile(f"cache/{videoid}_v5.png"):
@@ -71,7 +66,7 @@ async def get_thumb(videoid):
     youtube = Image.open(f"cache/thumb{videoid}.png")
     image1 = changeImageSize(1280, 720, youtube)
     image2 = image1.convert("RGBA")
-    background = image2.filter(ImageFilter.BoxBlur(20))
+    background = image2.filter(filter=ImageFilter.BoxBlur(20))
     enhancer = ImageEnhance.Brightness(background)
     background = enhancer.enhance(0.6)
     draw = ImageDraw.Draw(background)
@@ -79,11 +74,9 @@ async def get_thumb(videoid):
     font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font.ttf", 30)
     title_font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font3.ttf", 45)
 
-    # Create and add square thumbnail with glow
-    square_thumbnail = changeImageSize(400, 400, youtube)
-    square_thumbnail_with_glow = add_glowing_border(square_thumbnail, 400)
+    square_thumbnail = create_square_thumbnail(youtube, 400)
     square_position = (120, 160)
-    background.paste(square_thumbnail_with_glow, square_position, square_thumbnail_with_glow)
+    background.paste(square_thumbnail, square_position, square_thumbnail)
 
     text_x_position = 565
     title1 = truncate(title)
