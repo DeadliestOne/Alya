@@ -6,18 +6,15 @@ from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont, ImageOps
 from unidecode import unidecode
 from youtubesearchpython.__future__ import VideosSearch
 from ANNIEMUSIC import app
-from config import YOUTUBE_IMG_URL  # Ensure this is correctly set in your config
+from config import YOUTUBE_IMG_URL  # Ensure this exists in your config
 
-# Utility function to resize the image
 def changeImageSize(maxWidth, maxHeight, image):
     widthRatio = maxWidth / image.size[0]
     heightRatio = maxHeight / image.size[1]
     newWidth = int(widthRatio * image.size[0])
     newHeight = int(heightRatio * image.size[1])
-    newImage = image.resize((newWidth, newHeight))
-    return newImage
+    return image.resize((newWidth, newHeight))
 
-# Utility function to truncate long text
 def truncate(text):
     words = text.split(" ")
     text1, text2 = "", ""
@@ -28,24 +25,16 @@ def truncate(text):
             text2 += " " + word
     return [text1.strip(), text2.strip()]
 
-# Function to add a glowing border
-def add_glow_border(image, border_size=10, glow_color=(0, 255, 0)):
-    border_img = ImageOps.expand(image, border=border_size, fill=glow_color)
-    for i in range(3):
-        border_img = border_img.filter(ImageFilter.GaussianBlur(3))
-    return border_img
+def create_glow(img, blur_radius=20, glow_color=(0, 255, 0)):
+    glow = img.copy().convert("RGBA")
+    alpha = glow.split()[3]
+    glow = ImageOps.colorize(alpha, black="black", white=glow_color)
+    glow = glow.filter(ImageFilter.GaussianBlur(blur_radius))
+    return glow
 
-# Function to create the square thumbnail with a glow effect
-def create_square_thumbnail(img, size, border=20):
-    img = img.resize((size - 2 * border, size - 2 * border))
-    square_img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    square_img.paste(img, (border, border))
-    return add_glow_border(square_img, border_size=5, glow_color=(0, 255, 0))
-
-# Main function to generate the thumbnail
 async def get_thumb(videoid):
-    if os.path.isfile(f"cache/{videoid}_custom.png"):
-        return f"cache/{videoid}_custom.png"
+    if os.path.isfile(f"cache/{videoid}_v6.png"):
+        return f"cache/{videoid}_v6.png"
 
     url = f"https://www.youtube.com/watch?v={videoid}"
     results = VideosSearch(url, limit=1)
@@ -66,21 +55,21 @@ async def get_thumb(videoid):
     youtube = Image.open(f"cache/thumb{videoid}.png")
     image1 = changeImageSize(1280, 720, youtube)
     image2 = image1.convert("RGBA")
-    background = image2.filter(ImageFilter.GaussianBlur(15))
+    background = image2.filter(filter=ImageFilter.BoxBlur(20))
     enhancer = ImageEnhance.Brightness(background)
     background = enhancer.enhance(0.6)
     draw = ImageDraw.Draw(background)
-
     arial = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font2.ttf", 30)
-    font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font.ttf", 30)
     title_font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font3.ttf", 45)
-
-    # Add square thumbnail with glow effect
-    square_thumbnail = create_square_thumbnail(youtube, 400)
-    square_position = (120, 160)
-    background.paste(square_thumbnail, square_position, square_thumbnail)
-
-    # Add text
+    
+    # Create gradient border with glow effect
+    thumbnail_size = 400
+    img_with_border = create_glow(image1, blur_radius=15, glow_color=(0, 255, 127))
+    border_image = Image.new("RGBA", (thumbnail_size + 40, thumbnail_size + 40), (0, 0, 0, 0))
+    border_image.paste(img_with_border, (20, 20), img_with_border)
+    background.paste(border_image, (100, 160), border_image)
+    
+    # Add title and info
     text_x_position = 565
     title1 = truncate(title)
     draw.text((text_x_position, 180), title1[0], fill=(255, 255, 255), font=title_font)
@@ -88,29 +77,24 @@ async def get_thumb(videoid):
     draw.text((text_x_position, 320), f"{channel}  |  {views[:23]}", (255, 255, 255), font=arial)
 
     # Progress bar
-    line_length = 580
+    line_length = 580  
     red_length = int(line_length * 0.6)
     white_length = line_length - red_length
-    draw.line([(text_x_position, 380), (text_x_position + red_length, 380)], fill="red", width=9)
-    draw.line([(text_x_position + red_length, 380), (text_x_position + line_length, 380)], fill="white", width=8)
-    circle_radius = 10
-    draw.ellipse([(text_x_position + red_length - circle_radius, 380 - circle_radius),
-                  (text_x_position + red_length + circle_radius, 380 + circle_radius)], fill="red")
+    start_point_red = (text_x_position, 380)
+    end_point_red = (text_x_position + red_length, 380)
+    draw.line([start_point_red, end_point_red], fill="red", width=9)
+    start_point_white = (text_x_position + red_length, 380)
+    end_point_white = (text_x_position + line_length, 380)
+    draw.line([start_point_white, end_point_white], fill="white", width=8)
 
-    draw.text((text_x_position, 400), "00:00", (255, 255, 255), font=arial)
-    draw.text((1080, 400), duration, (255, 255, 255), font=arial)
-
-    # Play icons
-    play_icons = Image.open("ANNIEMUSIC/assets/thumb/play_icons.png").resize((580, 62))
-    background.paste(play_icons, (text_x_position, 450), play_icons)
-
-    # Add watermark
-    watermark_font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font.ttf", 25)
-    draw.text((1050, 680), "@MitshBot", fill=(255, 255, 255, 150), font=watermark_font)
+    # Now Playing animation
+    now_playing_font = ImageFont.truetype("ANNIEMUSIC/assets/thumb/font.ttf", 25)
+    draw.rectangle([text_x_position, 450, text_x_position + 150, 485], fill=(255, 0, 0, 180))
+    draw.text((text_x_position + 10, 455), "Now Playing", fill=(255, 255, 255), font=now_playing_font)
 
     try:
         os.remove(f"cache/thumb{videoid}.png")
     except:
         pass
-    background.save(f"cache/{videoid}_custom.png")
-    return f"cache/{videoid}_custom.png"
+    background.save(f"cache/{videoid}_v6.png")
+    return f"cache/{videoid}_v6.png"
